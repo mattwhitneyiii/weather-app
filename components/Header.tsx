@@ -103,12 +103,13 @@ export default function Header({
         {onGetCurrentLocation && (
           <button
             onClick={onGetCurrentLocation}
-            className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg hover:bg-white/30 transition-colors flex items-center gap-2"
+            className="px-3 md:px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg hover:bg-white/30 transition-colors flex items-center gap-1 md:gap-2"
             disabled={loading}
             title="Get forecast for current location"
           >
             <FiNavigation className={loading ? 'animate-spin' : ''} size={18} />
-            Current Location
+            <span className="hidden sm:inline whitespace-nowrap">Current Location</span>
+            <span className="sm:hidden">Location</span>
           </button>
         )}
         {/* Refresh Button (only on main page) */}

@@ -95,13 +95,22 @@ export async function getWeatherByCoords(lat: number, lon: number, units: 'imper
 
 export async function searchLocations(query: string): Promise<Location[]> {
   try {
-    const response = await axios.get('http://api.openweathermap.org/geo/1.0/direct', {
+    if (!API_KEY) {
+      console.error('API key is missing');
+      return [];
+    }
+
+    const response = await axios.get('https://api.openweathermap.org/geo/1.0/direct', {
       params: {
         q: query,
         limit: 5,
         appid: API_KEY,
       },
     });
+
+    if (!response.data || !Array.isArray(response.data)) {
+      return [];
+    }
 
     return response.data.map((item: any) => ({
       name: item.name,
@@ -110,8 +119,11 @@ export async function searchLocations(query: string): Promise<Location[]> {
       lon: item.lon,
       state: item.state,
     }));
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error searching locations:', error);
+    if (error.response) {
+      console.error('API Error:', error.response.status, error.response.data);
+    }
     return [];
   }
 }

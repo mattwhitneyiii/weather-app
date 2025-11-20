@@ -39,9 +39,13 @@ export default function LocationSearch({ onLocationSelect, currentLocation }: Lo
       const locations = await searchLocations(searchQuery);
       setResults(locations);
       setIsOpen(locations.length > 0);
+      if (locations.length === 0 && searchQuery.length >= 2) {
+        console.log('No locations found for:', searchQuery);
+      }
     } catch (error) {
       console.error('Search error:', error);
       setResults([]);
+      setIsOpen(false);
     } finally {
       setIsSearching(false);
     }
@@ -73,24 +77,32 @@ export default function LocationSearch({ onLocationSelect, currentLocation }: Lo
         )}
       </div>
 
-      {isOpen && results.length > 0 && (
+      {isOpen && query.length >= 2 && (
         <div className="absolute z-50 w-full mt-2 bg-white rounded-xl shadow-xl border border-gray-200 max-h-64 overflow-y-auto">
-          {results.map((location, index) => (
-            <button
-              key={index}
-              onClick={() => handleSelect(location)}
-              className="w-full px-4 py-3 text-left hover:bg-blue-50 transition-colors flex items-center gap-2"
-            >
-              <FiMapPin className="text-blue-500" size={18} />
-              <div>
-                <div className="font-medium text-gray-800">
-                  {location.name}
-                  {location.state && `, ${location.state}`}
+          {results.length > 0 ? (
+            results.map((location, index) => (
+              <button
+                key={index}
+                onClick={() => handleSelect(location)}
+                className="w-full px-4 py-3 text-left hover:bg-blue-50 transition-colors flex items-center gap-2"
+              >
+                <FiMapPin className="text-blue-500" size={18} />
+                <div>
+                  <div className="font-medium text-gray-800">
+                    {location.name}
+                    {location.state && `, ${location.state}`}
+                  </div>
+                  <div className="text-sm text-gray-500">{location.country}</div>
                 </div>
-                <div className="text-sm text-gray-500">{location.country}</div>
+              </button>
+            ))
+          ) : (
+            !isSearching && (
+              <div className="px-4 py-3 text-gray-500 text-center">
+                No locations found. Try a different search term.
               </div>
-            </button>
-          ))}
+            )
+          )}
         </div>
       )}
 
