@@ -32,10 +32,10 @@ export default function WeatherIcon({ icon, description, size = 48, className = 
       };
     }
     if (iconCode === '03' || iconCode === '04') {
-      // Scattered/Broken clouds - Gray
+      // Scattered/Broken clouds - Sun peeking out from behind cloud
       return {
-        icon: <IoMdCloudy size={size} />,
-        color: 'text-gray-500'
+        icon: isNight ? <IoMdCloudy size={size} /> : <IoMdPartlySunny size={size} />,
+        color: isNight ? 'text-gray-500' : 'text-yellow-300'
       };
     }
     if (iconCode === '09' || iconCode === '10') {
@@ -81,7 +81,7 @@ export default function WeatherIcon({ icon, description, size = 48, className = 
       };
     }
     if (mainCondition.includes('cloud')) {
-      if (mainCondition.includes('few') || mainCondition.includes('scattered')) {
+      if (mainCondition.includes('few') || mainCondition.includes('scattered') || mainCondition.includes('broken')) {
         return {
           icon: isNight ? <IoMdCloudy size={size} /> : <IoMdPartlySunny size={size} />,
           color: isNight ? 'text-gray-400' : 'text-yellow-300'
