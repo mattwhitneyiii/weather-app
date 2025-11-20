@@ -1,13 +1,13 @@
 # Weather App
 
-A beautiful, modern weather application built with Next.js, TypeScript, and Tailwind CSS. Features hourly forecasts for today and daily forecasts for the next 30 days.
+A beautiful, modern weather application built with Next.js, TypeScript, and Tailwind CSS. Features hourly forecasts for today and daily forecasts for the next 5 days.
 
 ## Features
 
 - 🌍 **Current Location**: Automatically detects and displays weather for your current location
 - 🔍 **Location Search**: Search and select any location worldwide
 - ⏰ **Hourly Forecast**: View today's weather by the hour with detailed information
-- 📅 **30-Day Forecast**: Extended daily forecast for the next 30 days
+- 📅 **5-Day Forecast**: Daily forecast for the next 5 days
 - 🎨 **Beautiful Icons**: Weather-specific icons and graphics for different conditions
 - 📱 **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 
@@ -49,7 +49,7 @@ This app uses the OpenWeatherMap API. To get your free API key:
 4. Copy your API key
 5. Add it to your `.env.local` file as shown above
 
-**Note**: The free tier provides 5-day forecasts. The app extends this to 30 days for demonstration purposes. For production use with actual 30-day data, you would need a premium API subscription or combine multiple data sources.
+**Note**: The free tier provides 5-day forecasts, which is what the app displays.
 
 ## Technologies Used
 
@@ -68,7 +68,7 @@ This app uses the OpenWeatherMap API. To get your free API key:
 │   ├── layout.tsx        # Root layout
 │   └── page.tsx          # Main page component
 ├── components/
-│   ├── DailyForecast.tsx # 30-day daily forecast component
+│   ├── DailyForecast.tsx # 5-day daily forecast component
 │   ├── HourlyForecast.tsx # Hourly forecast component
 │   ├── LocationSearch.tsx # Location search component
 │   └── WeatherIcon.tsx   # Weather icon component
@@ -88,7 +88,7 @@ This app uses the OpenWeatherMap API. To get your free API key:
 - Beautiful card-based design
 
 ### Daily Forecast
-- 30-day forecast
+- 5-day forecast
 - Weekly pagination for easy navigation
 - Click on any day to see detailed information
 - Shows high/low temperatures, precipitation probability, and more

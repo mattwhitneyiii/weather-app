@@ -65,9 +65,9 @@ export async function getWeatherByCoords(lat: number, lon: number, units: 'imper
       pop: item.pop || 0,
     }));
 
-    // Extend daily forecast to 30 days for demo
+    // Extend daily forecast to 5 days for demo
     // In production, you'd fetch this from a premium API
-    const extendedDaily = extendForecast(daily, 30);
+    const extendedDaily = extendForecast(daily, 5);
 
     return {
       location: {

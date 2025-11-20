@@ -22,8 +22,6 @@ export default function DailyForecast({ forecasts, unit }: DailyForecastProps) {
     return Math.round(speed);
   };
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
-  const weeks = Math.ceil(forecasts.length / 7);
-  const [currentWeek, setCurrentWeek] = useState(0);
 
   const getDayLabel = (date: Date) => {
     if (isToday(date)) return 'Today';
@@ -31,40 +29,16 @@ export default function DailyForecast({ forecasts, unit }: DailyForecastProps) {
     return format(date, 'EEE');
   };
 
-  const getWeekForecasts = (weekIndex: number) => {
-    const start = weekIndex * 7;
-    const end = Math.min(start + 7, forecasts.length);
-    return forecasts.slice(start, end);
-  };
-
-  const currentWeekForecasts = getWeekForecasts(currentWeek);
-
   return (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6">
-      <div className="flex justify-between items-center mb-4">
+      <div className="mb-4">
         <h2 className="text-2xl font-bold text-gray-800">
-          30-Day Forecast (Week {currentWeek + 1} of {weeks})
+          5-Day Forecast
         </h2>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setCurrentWeek(Math.max(0, currentWeek - 1))}
-            disabled={currentWeek === 0}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            ← Prev
-          </button>
-          <button
-            onClick={() => setCurrentWeek(Math.min(weeks - 1, currentWeek + 1))}
-            disabled={currentWeek === weeks - 1}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            Next →
-          </button>
-        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-3">
-        {currentWeekForecasts.map((forecast, index) => {
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
+        {forecasts.map((forecast, index) => {
           const date = new Date(forecast.dt);
           const isSelected = selectedDay === forecast.dt;
           const isCurrentDay = isToday(date);
@@ -115,11 +89,6 @@ export default function DailyForecast({ forecasts, unit }: DailyForecastProps) {
         })}
       </div>
 
-      {forecasts.length > 7 && (
-        <div className="mt-4 text-center text-sm text-gray-600">
-          Showing {currentWeek * 7 + 1}-{Math.min((currentWeek + 1) * 7, forecasts.length)} of {forecasts.length} days
-        </div>
-      )}
     </div>
   );
 }
