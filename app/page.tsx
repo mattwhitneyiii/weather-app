@@ -34,6 +34,24 @@ export default function Home() {
       const data = await getWeatherByCoords(lat, lon, units);
       setWeatherData(data);
       setCurrentLocation(data.location);
+
+      // Send usage email notification
+      try {
+        await fetch('/api/send-usage-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            location: data.location,
+            temperature: Math.round(data.current.temp),
+            unit: tempUnit || unit,
+          }),
+        });
+      } catch (emailError) {
+        // Silently fail - don't interrupt user experience if email fails
+        console.error('Failed to send usage email:', emailError);
+      }
     } catch (err) {
       setError('Failed to load weather data. Please check your API key.');
       console.error(err);
