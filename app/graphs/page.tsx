@@ -309,6 +309,22 @@ export default function GraphsPage() {
     }
   };
 
+  const handleGetCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          fetchWeatherData(position.coords.latitude, position.coords.longitude, unit);
+        },
+        (err) => {
+          console.error('Geolocation error:', err);
+          alert('Unable to get your current location. Please allow location access or search for a location.');
+        }
+      );
+    } else {
+      alert('Geolocation is not supported by your browser.');
+    }
+  };
+
   // Regenerate graph when time range changes
   useEffect(() => {
     if (timeRange && weatherDataCache) {
@@ -351,6 +367,8 @@ export default function GraphsPage() {
           location={currentLocation}
           unit={unit}
           onUnitToggle={handleUnitToggle}
+          onGetCurrentLocation={handleGetCurrentLocation}
+          loading={loading}
         />
 
         {/* Location Search */}

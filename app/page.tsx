@@ -81,6 +81,22 @@ export default function Home() {
     }
   };
 
+  const handleGetCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          fetchWeather(position.coords.latitude, position.coords.longitude, unit);
+        },
+        (err) => {
+          console.error('Geolocation error:', err);
+          alert('Unable to get your current location. Please allow location access or search for a location.');
+        }
+      );
+    } else {
+      alert('Geolocation is not supported by your browser.');
+    }
+  };
+
   const getUnitSymbol = () => unit === 'celsius' ? '°C' : '°F';
 
   if (loading && !weatherData) {
@@ -131,6 +147,7 @@ export default function Home() {
           unit={unit}
           onUnitToggle={handleUnitToggle}
           onRefresh={handleRefresh}
+          onGetCurrentLocation={handleGetCurrentLocation}
           loading={loading}
         />
 

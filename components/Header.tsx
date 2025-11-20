@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FiRefreshCw, FiMapPin, FiBarChart2, FiHome } from 'react-icons/fi';
+import { FiRefreshCw, FiMapPin, FiBarChart2, FiHome, FiNavigation } from 'react-icons/fi';
 
 type TemperatureUnit = 'celsius' | 'fahrenheit';
 
@@ -15,6 +15,7 @@ interface HeaderProps {
   unit: TemperatureUnit;
   onUnitToggle: () => void;
   onRefresh?: () => void;
+  onGetCurrentLocation?: () => void;
   loading?: boolean;
 }
 
@@ -23,6 +24,7 @@ export default function Header({
   unit,
   onUnitToggle,
   onRefresh,
+  onGetCurrentLocation,
   loading = false,
 }: HeaderProps) {
   const pathname = usePathname();
@@ -96,6 +98,18 @@ export default function Header({
             <FiHome size={18} />
             Home
           </Link>
+        )}
+        {/* Get Current Location Button */}
+        {onGetCurrentLocation && (
+          <button
+            onClick={onGetCurrentLocation}
+            className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg hover:bg-white/30 transition-colors flex items-center gap-2"
+            disabled={loading}
+            title="Get forecast for current location"
+          >
+            <FiNavigation className={loading ? 'animate-spin' : ''} size={18} />
+            Current Location
+          </button>
         )}
         {/* Refresh Button (only on main page) */}
         {onRefresh && !isGraphsPage && (
